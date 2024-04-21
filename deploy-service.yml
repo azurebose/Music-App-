@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: musicapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: musicapp
+  template:
+    metadata:
+      labels:
+        app: musicapp
+    spec:
+      containers:
+      - name: musicapp
+        image: chndra/musicapp:latest
+        ports:
+        - containerPort: 3000   # Use port 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: musicapp-service
+spec:
+  selector:
+    app: musicapp
+  ports:
+  - protocol: TCP
+    port: 80                 # Expose port 80
+    targetPort: 3000
+  type: LoadBalancer
